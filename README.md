@@ -1,2 +1,2 @@
-NeuroAI-Website (2).html
+index.html
 AI-powered website built with OpenAI
