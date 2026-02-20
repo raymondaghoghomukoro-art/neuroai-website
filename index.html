@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,87 +10,29 @@
 body { background: #0f172a; color: white; overflow-x: hidden; }
 header { padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); backdrop-filter: blur(10px); position: sticky; top: 0; }
 .logo { font-size: 24px; font-weight: 700; background: linear-gradient(90deg, #00f5ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-nav a { margin-left: 25px; text-decoration: none; color: #cbd5e1; transition: 0.3s; }
-nav a:hover { color: white; }
 .hero { text-align: center; padding: 120px 8%; }
 .hero h1 { font-size: 52px; font-weight: 700; background: linear-gradient(90deg, #00f5ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .hero p { margin-top: 20px; font-size: 18px; color: #94a3b8; }
 .btn { margin-top: 30px; padding: 12px 28px; background: linear-gradient(90deg, #00f5ff, #7c3aed); border: none; border-radius: 30px; color: white; cursor: pointer; font-size: 16px; transition: 0.3s; }
 .btn:hover { transform: scale(1.05); }
-.features { padding: 80px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-.card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); transition: 0.3s; }
-.card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.08); }
-.card h3 { margin-bottom: 15px; }
-.demo { padding: 80px 8%; text-align: center; }
-.chat-box { margin: 30px auto; max-width: 500px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; }
-.chat-output { min-height: 100px; margin-bottom: 15px; text-align: left; font-size: 14px; color: #cbd5e1; }
-.chat-input { display: flex; }
-.chat-input input { flex: 1; padding: 10px; border-radius: 8px 0 0 8px; border: none; outline: none; }
-.chat-input button { padding: 10px 20px; border: none; border-radius: 0 8px 8px 0; background: linear-gradient(90deg, #00f5ff, #7c3aed); color: white; cursor: pointer; }
 footer { text-align: center; padding: 30px; color: #64748b; }
 </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">NeuroAI</div>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Features</a>
-        <a href="#">Demo</a>
-        <a href="#">Contact</a>
-    </nav>
+<div class="logo">NeuroAI</div>
 </header>
 
 <section class="hero">
-    <h1>The Future of Artificial Intelligence</h1>
-    <p>Smarter. Faster. More Human.</p>
-    <button class="btn">Get Started</button>
-</section>
-
-<section class="features">
-    <div class="card">
-        <h3>⚡ Real-Time Learning</h3>
-        <p>AI that adapts and improves with every interaction.</p>
-    </div>
-    <div class="card">
-        <h3>🔐 Secure & Private</h3>
-        <p>Your data stays protected with enterprise-grade encryption.</p>
-    </div>
-    <div class="card">
-        <h3>🌍 Global Intelligence</h3>
-        <p>Supports multiple languages and global data models.</p>
-    </div>
-</section>
-
-<section class="demo">
-    <h2>Try Our AI Demo</h2>
-    <div class="chat-box">
-        <div class="chat-output" id="chatOutput">Ask me anything...</div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your question...">
-            <button onclick="generateResponse()">Send</button>
-        </div>
-    </div>
+<h1>The Future of Artificial Intelligence</h1>
+<p>Smarter. Faster. More Human.</p>
+<button class="btn">Get Started</button>
 </section>
 
 <footer>
-    © 2026 NeuroAI. All rights reserved.
+© 2026 NeuroAI. All rights reserved.
 </footer>
-
-<script>
-function generateResponse() {
-    const input = document.getElementById("userInput").value;
-    const output = document.getElementById("chatOutput");
-    if(input.trim() === "") return;
-    output.innerHTML += "<br><br><strong>You:</strong> " + input;
-    setTimeout(() => {
-        output.innerHTML += "<br><strong>AI:</strong> I'm an AI demo. Connect me to a real API for full intelligence!";
-        output.scrollTop = output.scrollHeight;
-    }, 800);
-    document.getElementById("userInput").value = "";
-}
-</script>
 
 </body>
 </html>
