@@ -137,11 +137,16 @@ async function sendMessage() {
 
   const data = await response.json();
 
-  // Show AI reply
-  const botMsg = document.createElement("div");
-  botMsg.className = "message bot";
+const botMsg = document.createElement("div");
+botMsg.className = "message bot";
+
+if (data.reply) {
   botMsg.innerText = data.reply;
-  messages.appendChild(botMsg);
+} else {
+  botMsg.innerText = "Error: " + (data.error || "Something went wrong.");
+}
+
+messages.appendChild(botMsg);
 
   messages.scrollTop = messages.scrollHeight;
 }
