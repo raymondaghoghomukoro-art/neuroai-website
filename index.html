@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,36 +15,14 @@ padding:20px;
 }
 
 h1{
-margin-bottom:10px;
+margin-bottom:20px;
 }
-
-/* MODE BUTTONS */
-
-.mode-buttons{
-margin-bottom:15px;
-}
-
-.mode-buttons button{
-padding:8px 14px;
-margin:5px;
-border:none;
-border-radius:6px;
-background:#333;
-color:white;
-cursor:pointer;
-}
-
-.mode-buttons button:hover{
-background:#555;
-}
-
-/* CHAT AREA */
 
 .chat-container{
 max-width:700px;
 margin:auto;
 height:400px;
-overflow-y:auto;
+overflow-y:scroll;
 background:white;
 border-radius:10px;
 padding:10px;
@@ -59,8 +36,6 @@ border-radius:10px;
 max-width:70%;
 }
 
-/* USER MESSAGE */
-
 .user{
 background:#007bff;
 color:white;
@@ -68,14 +43,10 @@ margin-left:auto;
 text-align:right;
 }
 
-/* AI MESSAGE */
-
 .ai{
 background:#eeeeee;
 text-align:left;
 }
-
-/* INPUT AREA */
 
 .input-area{
 margin-top:15px;
@@ -88,7 +59,7 @@ border-radius:6px;
 border:1px solid #ccc;
 }
 
-button.send-btn{
+button{
 padding:10px 15px;
 border:none;
 background:#007bff;
@@ -97,53 +68,27 @@ border-radius:6px;
 cursor:pointer;
 }
 
-button.send-btn:hover{
+button:hover{
 background:#0056b3;
 }
 
 </style>
-</head>
 
+</head>
 <body>
 
 <h1>NeuroAI</h1>
 
-<!-- MODE BUTTONS -->
-
-<div class="mode-buttons">
-<button onclick="setMode('kids')">Kids AI</button>
-<button onclick="setMode('business')">Business AI</button>
-<button onclick="setMode('general')">General AI</button>
-</div>
-
-<!-- CHAT -->
-
 <div class="chat-container" id="chat"></div>
-
-<!-- INPUT -->
 
 <div class="input-area">
 <input type="text" id="messageInput" placeholder="Ask NeuroAI anything..." />
-<button class="send-btn" onclick="sendMessage()">Send</button>
+<button onclick="sendMessage()">Send</button>
 </div>
 
 <script>
 
-/* CURRENT MODE */
-
-let mode = "general";
-
-function setMode(selectedMode){
-
-mode = selectedMode;
-
-addMessage("Mode switched to: " + selectedMode,"ai");
-
-}
-
-/* ADD MESSAGE TO CHAT */
-
-function addMessage(text, sender){
+function addMessage(text, sender) {
 
 const chat = document.getElementById("chat");
 
@@ -158,8 +103,6 @@ chat.appendChild(message);
 chat.scrollTop = chat.scrollHeight;
 
 }
-
-/* SEND MESSAGE */
 
 async function sendMessage(){
 
@@ -176,18 +119,11 @@ input.value="";
 try{
 
 const response = await fetch("/api/chat",{
-
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
-body:JSON.stringify({
-message:text,
-mode:mode
-})
-
+body:JSON.stringify({message:text})
 });
 
 const data = await response.json();
@@ -201,16 +137,6 @@ addMessage("Error connecting to AI","ai");
 }
 
 }
-
-/* PRESS ENTER TO SEND */
-
-document.getElementById("messageInput").addEventListener("keypress",function(e){
-
-if(e.key==="Enter"){
-sendMessage();
-}
-
-});
 
 </script>
 
