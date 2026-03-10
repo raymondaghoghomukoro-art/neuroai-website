@@ -4,138 +4,154 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NeuroAI - AI Assistant</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
 
-body {
-  background: #0f172a;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+body{
+background:#0f172a;
+color:white;
+display:flex;
+flex-direction:column;
+min-height:100vh;
 }
 
-header {
-  padding: 20px 8%;
-  background: rgba(255,255,255,0.02);
-  text-align: center;
+header{
+padding:20px 8%;
+background:rgba(255,255,255,0.02);
+text-align:center;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(90deg, #00f5ff, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.logo{
+font-size:24px;
+font-weight:700;
+background:linear-gradient(90deg,#00f5ff,#7c3aed);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-.chat-container {
-  max-width: 700px;
-  margin: auto;
-  height: 400px;
-  overflow-y: scroll;
+.chat-container{
+max-width:700px;
+margin:auto;
+height:400px;
+overflow-y:auto;
+padding:20px;
 }
 
-.message {
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
+.message{
+padding:10px;
+margin:10px;
+border-radius:10px;
+max-width:80%;
 }
 
-.user {
-  background: #007bff;
-  color: white;
-  text-align: right;
+.user{
+background:#007bff;
+color:white;
+margin-left:auto;
 }
 
-.ai {
-  background: #eeeeee;
+.ai{
+background:#1e293b;
 }
 
-.input-area {
-  display: flex;
+.input-area{
+display:flex;
+max-width:700px;
+margin:20px auto;
 }
 
-input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 30px;
-  border: none;
-  outline: none;
+input{
+flex:1;
+padding:12px;
+border-radius:30px;
+border:none;
+outline:none;
 }
 
-button {
-  margin-left: 10px;
-  padding: 12px 20px;
-  border-radius: 30px;
-  border: none;
-  background: linear-gradient(90deg, #00f5ff, #7c3aed);
-  color: white;
-  cursor: pointer;
+button{
+margin-left:10px;
+padding:12px 20px;
+border-radius:30px;
+border:none;
+background:linear-gradient(90deg,#00f5ff,#7c3aed);
+color:white;
+cursor:pointer;
 }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #64748b;
+footer{
+text-align:center;
+padding:20px;
+color:#64748b;
 }
 </style>
 </head>
+
 <body>
 
 <header>
 <div class="logo">NeuroAI</div>
 </header>
 
-<div class="chat-container" id="chat">
-</div>
+<div class="chat-container" id="chat"></div>
 
+<div class="input-area">
 <input type="text" id="messageInput" placeholder="Ask NeuroAI anything..." />
 <button onclick="sendMessage()">Send</button>
-  </div>
 </div>
 
 <footer>
 © 2026 NeuroAI. Powered by OpenAI.
 </footer>
 
-function addMessage(text, sender) {
-  const chat = document.getElementById("chat");
+<script>
 
-  const message = document.createElement("div");
-  message.className = "message " + sender;
-  message.innerText = text;
+function addMessage(text, sender){
+const chat=document.getElementById("chat");
 
-  chat.appendChild(message);
+const message=document.createElement("div");
+message.className="message "+sender;
+message.innerText=text;
+
+chat.appendChild(message);
+chat.scrollTop=chat.scrollHeight;
 }
 
-  input.value = "";
+async function sendMessage(){
 
-  // Send to backend
-  const response = await fetch("https://neuroai-backend-id4r.onrender.com/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message: userText })
-  });
+const input=document.getElementById("messageInput");
+const userText=input.value;
 
-  const data = await response.json();
+if(!userText) return;
 
-const botMsg = document.createElement("div");
-botMsg.className = "message bot";
+addMessage(userText,"user");
 
-if (data.reply) {
-  botMsg.innerText = data.reply;
-} else {
-  botMsg.innerText = "Error: " + (data.error || "Something went wrong.");
+input.value="";
+
+try{
+
+const response=await fetch("https://neuroai-backend-id4r.onrender.com/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message:userText})
+});
+
+const data=await response.json();
+
+addMessage(data.reply || "AI failed to respond","ai");
+
+}catch(error){
+
+addMessage("Connection error","ai");
+
 }
 
-messages.appendChild(botMsg);
-
-  messages.scrollTop = messages.scrollHeight;
 }
+
 </script>
 
 </body>
