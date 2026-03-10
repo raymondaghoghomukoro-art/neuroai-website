@@ -100,19 +100,15 @@ footer {
 © 2026 NeuroAI. Powered by OpenAI.
 </footer>
 
-<script>
-async function sendMessage() {
-  const input = document.getElementById("userInput");
-  const messages = document.getElementById("messages");
+function addMessage(text, sender) {
+  const chat = document.getElementById("chat");
 
-  const userText = input.value;
-  if (!userText) return;
+  const message = document.createElement("div");
+  message.className = "message " + sender;
+  message.innerText = text;
 
-  // Show user message
-  const userMsg = document.createElement("div");
-  userMsg.className = "message user";
-  userMsg.innerText = userText;
-  messages.appendChild(userMsg);
+  chat.appendChild(message);
+}
 
   input.value = "";
 
