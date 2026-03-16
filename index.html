@@ -175,7 +175,7 @@ input.value="";
 
 try{
 
-const response = await fetch("https://neuroai-backend-2.onrender.com/api/chat",{
+const response = await fetch("https://neuroai-backend-2.onrender.com/api/ask",{
 
 method:"POST",
 
@@ -192,7 +192,7 @@ mode:mode
 
 const data = await response.json();
 
-addMessage(data.reply || data.message || "No response","ai");
+addMessage(data.reply || "No response","ai");
 
 }catch(error){
 
