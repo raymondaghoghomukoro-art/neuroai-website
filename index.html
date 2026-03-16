@@ -175,7 +175,7 @@ input.value="";
 
 try{
 
-const response = await fetch("/api/chat",{
+const response = await fetch("https://neuroai-backend-2.onrender.com/api/chat",{
 
 method:"POST",
 
@@ -201,7 +201,6 @@ addMessage("Error connecting to AI","ai");
 }
 
 }
-
 /* PRESS ENTER TO SEND */
 
 document.getElementById("messageInput").addEventListener("keypress",function(e){
