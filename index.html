@@ -181,16 +181,12 @@ const response = await fetch("https://neuroai-backend-2.onrender.com/api/ask", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    message: userInput,
+    message: "Hello"
   }),
 })
 .then(res => res.json())
-.then(data => {
-  console.log(data.reply);
-})
-.catch(err => {
-  console.error("Error:", err);
-});
+.then(data => console.log(data))
+.catch(err => console.error(err));
 
 addMessage("Error connecting to AI","ai");
 
