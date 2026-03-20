@@ -188,7 +188,7 @@ async function sendMessage(){
     addMessage(data.reply, "ai");  // ✅ show AI response
 
   } catch (error) {
-    console.error(error);
+    console.log(data);
     addMessage("Error connecting to AI", "ai");
   }
 
