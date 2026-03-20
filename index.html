@@ -164,7 +164,7 @@ chat.scrollTop = chat.scrollHeight;
 async function sendMessage(){
 
   const input = document.getElementById("messageInput");
-  const text = input.value;
+  const text = input.value.trim();
 
   if(!text) return;
 
@@ -179,17 +179,30 @@ async function sendMessage(){
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: text   // ✅ send real input
+        message: text,
+        mode: mode
       }),
     });
 
+    // ✅ Check if server responded properly
+    if (!response.ok) {
+      throw new Error("Server error: " + response.status);
+    }
+
     const data = await response.json();
 
-    addMessage(data.reply, "ai");  // ✅ show AI response
+    console.log("API response:", data);
+
+    // ✅ Handle backend errors safely
+    if (data.error) {
+      addMessage("Error: " + data.error, "ai");
+    } else {
+      addMessage(data.reply || "No response from AI", "ai");
+    }
 
   } catch (error) {
-    console.log("API response:", data);
-    addMessage(data.reply || "No response from AI", "ai");
+    console.error("Fetch error:", error);
+    addMessage("⚠️ Unable to reach AI server", "ai");
   }
 
 }
