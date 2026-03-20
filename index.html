@@ -191,7 +191,7 @@ async function sendMessage(){
 
     const data = await response.json();
 
-    console.log("API response:", data);
+    console.log("API KEY:", process.env.OPENAI_API_KEY);
 
     // ✅ Handle backend errors safely
     if (data.error) {
