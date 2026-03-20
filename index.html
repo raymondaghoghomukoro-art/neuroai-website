@@ -188,8 +188,8 @@ async function sendMessage(){
     addMessage(data.reply, "ai");  // ✅ show AI response
 
   } catch (error) {
-    console.log(data);
-    addMessage("Error connecting to AI", "ai");
+    console.log("API response:", data);
+    addMessage(data.reply || "No response from AI", "ai");
   }
 
 }
