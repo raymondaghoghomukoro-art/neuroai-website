@@ -10,7 +10,8 @@
 
 body{
 font-family: Arial, sans-serif;
-background:#f4f4f4;
+background:#0f172a;
+color:white;
 text-align:center;
 padding:20px;
 }
@@ -26,30 +27,37 @@ margin-bottom:15px;
 }
 
 .mode-buttons button{
-padding:8px 14px;
+padding:10px 16px;
 margin:5px;
 border:none;
-border-radius:6px;
-background:#333;
+border-radius:8px;
+background:#1e293b;
 color:white;
 cursor:pointer;
+transition:0.3s;
 }
 
 .mode-buttons button:hover{
-background:#555;
+background:#334155;
 }
 
-/* CHAT AREA */
+/* ACTIVE BUTTON */
+
+.active{
+background:#007bff !important;
+}
+
+/* CHAT */
 
 .chat-container{
 max-width:700px;
 margin:auto;
 height:400px;
 overflow-y:auto;
-background:white;
-border-radius:10px;
+background:#1e293b;
+border-radius:12px;
 padding:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 0 15px rgba(0,0,0,0.4);
 }
 
 .message{
@@ -59,23 +67,22 @@ border-radius:10px;
 max-width:70%;
 }
 
-/* USER MESSAGE */
+/* USER */
 
 .user{
 background:#007bff;
-color:white;
 margin-left:auto;
 text-align:right;
 }
 
-/* AI MESSAGE */
+/* AI */
 
 .ai{
-background:#eeeeee;
+background:#334155;
 text-align:left;
 }
 
-/* INPUT AREA */
+/* INPUT */
 
 .input-area{
 margin-top:15px;
@@ -83,17 +90,18 @@ margin-top:15px;
 
 input{
 width:60%;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
+padding:12px;
+border-radius:8px;
+border:none;
+outline:none;
 }
 
 button.send-btn{
-padding:10px 15px;
+padding:12px 18px;
 border:none;
 background:#007bff;
 color:white;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
 }
 
@@ -106,14 +114,15 @@ background:#0056b3;
 
 <body>
 
-<h1>NeuroAI</h1>
+<h1>🧠 NeuroAI</h1>
 
-<!-- MODE BUTTONS -->
+<!-- MODES -->
 
 <div class="mode-buttons">
-<button onclick="setMode('kids')">Kids AI</button>
-<button onclick="setMode('business')">Business AI</button>
-<button onclick="setMode('general')">General AI</button>
+<button onclick="setMode('neuro', this)" class="active">🧠 NeuroAI</button>
+<button onclick="setMode('science', this)">🔬 Science AI</button>
+<button onclick="setMode('business', this)">💼 Business AI</button>
+<button onclick="setMode('general', this)">🌐 General AI</button>
 </div>
 
 <!-- CHAT -->
@@ -129,38 +138,43 @@ background:#0056b3;
 
 <script>
 
-/* CURRENT MODE */
+// 🧠 CURRENT MODE
+let mode = "neuro";
 
-let mode = "general";
+// 🧾 SESSION ID (persistent per user)
+let sessionId = localStorage.getItem("sessionId");
 
-function setMode(selectedMode){
-
-mode = selectedMode;
-
-addMessage("Mode switched to: " + selectedMode,"ai");
-
+if (!sessionId) {
+  sessionId = "session-" + Math.random().toString(36).substring(2);
+  localStorage.setItem("sessionId", sessionId);
 }
 
-/* ADD MESSAGE TO CHAT */
+// 🔁 SWITCH MODE
+function setMode(selectedMode, btn){
 
+  mode = selectedMode;
+
+  // highlight active button
+  document.querySelectorAll(".mode-buttons button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  addMessage("⚡ Mode: " + selectedMode.toUpperCase(), "ai");
+}
+
+// 💬 ADD MESSAGE
 function addMessage(text, sender){
 
-const chat = document.getElementById("chat");
+  const chat = document.getElementById("chat");
 
-const message = document.createElement("div");
+  const message = document.createElement("div");
+  message.className = "message " + sender;
+  message.innerText = text;
 
-message.className = "message " + sender;
-
-message.innerText = text;
-
-chat.appendChild(message);
-
-chat.scrollTop = chat.scrollHeight;
-
+  chat.appendChild(message);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-/* SEND MESSAGE */
-
+// 🚀 SEND MESSAGE
 async function sendMessage(){
 
   const input = document.getElementById("messageInput");
@@ -180,40 +194,30 @@ async function sendMessage(){
       },
       body: JSON.stringify({
         message: text,
-        mode: mode
+        mode: mode,
+        sessionId: sessionId
       }),
     });
 
-    // ✅ Check if server responded properly
     if (!response.ok) {
-      throw new Error("Server error: " + response.status);
+      throw new Error("Server error");
     }
 
     const data = await response.json();
 
-    console.log("API KEY:", process.env.OPENAI_API_KEY);
-
-    // ✅ Handle backend errors safely
-    if (data.error) {
-      addMessage("Error: " + data.error, "ai");
-    } else {
-      addMessage(data.reply || "No response from AI", "ai");
-    }
+    addMessage(data.reply || "No response", "ai");
 
   } catch (error) {
-    console.error("Fetch error:", error);
-    addMessage("⚠️ Unable to reach AI server", "ai");
+    console.error(error);
+    addMessage("⚠️ Server error. Try again.", "ai");
   }
-
-}
-/* PRESS ENTER TO SEND */
-
-document.getElementById("messageInput").addEventListener("keypress",function(e){
-
-if(e.key==="Enter"){
-sendMessage();
 }
 
+// ⌨️ ENTER TO SEND
+document.getElementById("messageInput").addEventListener("keypress", function(e){
+  if(e.key === "Enter"){
+    sendMessage();
+  }
 });
 
 </script>
